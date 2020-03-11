@@ -1,0 +1,451 @@
+<html>
+
+<head>
+    <title>Shopping List</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            user-select: none;
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
+            font-family: sans-serif;
+        }
+        
+        ._nav-wrapper {
+            background: #E91E63;
+            padding: 0.7pc 1pc;
+            box-shadow: 0 0 9px rgba(0, 0, 0, 0.46);
+            color: #f0f0f1;
+            display: flex;
+            justify-content: space-around;
+            transition: .2s linear;
+        }
+        
+        .nav-wrapper {
+            background: #ffffff;
+            padding: 0.7pc 1pc;
+            box-shadow: 0 1px 1px rgb(186, 202, 210);
+            color: #b8c8d0;
+            display: flex;
+            justify-content: space-around;
+            transition: .2s linear;
+            margin: auto;
+            margin-top: 1pc;
+            width: 88%;
+            border-radius: 5em;
+        }
+        
+        .transf-l {
+            transform: translate(30%, 0);
+            z-index: 45555;
+            position: relative;
+            box-shadow: 0 1px 1px rgb(186, 202, 210), -8px 0 0px 10px #f1f1f1;
+        }
+        
+        .transf-r {
+            transform: translate(-40%, 0);
+        }
+        
+        .transf-0 {
+            transform: translate(0%, 0);
+        }
+        
+        .transf-relative {
+            width: 57%;
+            margin-right: 1%;
+        }
+        
+        .transf-relative_ {
+            width: 57%;
+            margin-left: 1%;
+        }
+        
+        .overflow-0 {
+            overflow: hidden;
+        }
+        
+        .nav-wrapper h1,
+        .nav-wrapper h2,
+        .nav-wrapper h3,
+        .nav-wrapper h4 {
+            margin: 0;
+            padding: 0;
+            flex: 1;
+            text-align: center;
+        }
+        
+        li {
+            padding: 0.9pc 1pc;
+            background: #f7f7fd;
+            list-style: none;
+            border-bottom: 2px solid #f0f0f1;
+            position: relative;
+        }
+        
+        ul {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+            border-top: 2px solid #f0f0f1;
+        }
+        
+        .menubar {
+            min-height: 30px;
+            min-width: 40px;
+            background: url(./assets/img/menu.png) no-repeat 100%;
+            border: hidden;
+            margin-right: 5px;
+            cursor: pointer;
+            outline: none;
+            border-radius: 5rem;
+        }
+        
+        ._menubar {
+            min-height: 30px;
+            min-width: 30px;
+            border: hidden;
+            margin-right: 5px;
+            cursor: pointer;
+            outline: none;
+            font-size: 18pt;
+            background: transparent;
+            color: aliceblue;
+            color: #a5b0b5;
+            border-radius: 5rem;
+        }
+        
+        ._menubar:hover,
+        .menubar:hover {
+            background-color: hsla(0, 0%, 58%, 0.17);
+        }
+        
+        .mdl,
+        .mdr {
+            position: fixed;
+            max-height: 100vh;
+            max-width: 0;
+            width: 100%;
+            background: white;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 1;
+            box-shadow: 1px 0px 16px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            -webkit-transition: .1s linear;
+            -moz-transition: .1s linear;
+            -ms-transition: .1s linear;
+            -o-transition: .1s linear;
+            transition: .1s linear;
+        }
+        
+        .mdr {
+            right: 0;
+            left: unset;
+        }
+        
+        .mdr-open {
+            max-width: 40%;
+        }
+        
+        .mdl-co-header,
+        .mdr-co-header {
+            display: flex;
+            width: 100%;
+            background: #00BCD4;
+            max-height: 25vh;
+            height: 100vh;
+        }
+        
+        .mdl-co-header {
+            background: #ff9800;
+        }
+        
+        .filt-container,
+        .filt-container-two {
+            display: flex;
+            width: 100%;
+            flex-wrap: wrap;
+            align-self: flex-end;
+            color: whitesmoke;
+            max-height: 85vh;
+        }
+        
+        .all_layer {
+            position: fixed;
+            max-width: 0;
+            width: 100%;
+            top: 0;
+            bottom: 0;
+            background: rgba(7, 41, 57, 0.06);
+            -webkit-transition: .5s linear;
+            -moz-transition: .5s linear;
+            -ms-transition: .5s linear;
+            -o-transition: .5s linear;
+            transition: .5s linear;
+        }
+        
+        #mdl-co-content {
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
+        
+        .art_list {
+            padding: 1.2pc 2pc;
+            cursor: context-menu;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .art_list:hover {
+            background: #e0e0e0;
+            border-color: transparent;
+        }
+        
+        .art_option_container {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: inherit;
+            display: flex;
+            height: 100%;
+            align-items: center;
+            max-width: 0;
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        .art_option {
+            border: 0;
+            padding: 10px;
+            margin: 0 5px;
+        }
+        
+        #items-container li:hover .art_option_container {
+            max-width: initial;
+            max-height: initial;
+            overflow: initial;
+        }
+        
+        #items-container li:hover {
+            background: rgba(222, 222, 222, 0.56);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav-wrapper">
+        <button class="menubar" id="md-l"></button>
+        <h1 class="brand-sm">Shopping List</h1>
+        <button class="_menubar" id="md-r">...</button>
+    </nav>
+
+    <div class="mdl">
+        <div class="mdl-content">
+            <div class="mdl-co-header"></div>
+            <ul id="mdl-co-content">
+                <li class="art_list">
+                    Alala Alala
+                </li>
+                <li class="art_list">
+                    Alala Alala
+                </li>
+                <li class="art_list">
+                    Alala Alala
+                </li>
+                <li class="art_list">
+                    Alala Alala
+                </li>
+                <li class="art_list">
+                    Alala Alala
+                </li>
+                <li class="art_list">
+                    Alala Alala
+                </li>
+                <li class="art_list">
+                    Alala Alala
+                </li>
+                <li class="art_list">
+                    Alala Alala
+                </li>
+                <li class="art_list">
+                    Alala Alala
+                </li>
+                <li class="art_list">
+                    Alala Alala
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="mdr">
+        <div class="mdr-content">
+            <div class="mdr-co-header"></div>
+            <p id="mdr-co-content">
+                <div class="filt-container-two">
+                    <button class="filters-b caret-down-b" id="theme">Themes</button>
+                    <div class="panel" id="pa-theme"></div>
+                </div>
+            </p>
+        </div>
+    </div>
+
+    <ul id="items-container"></ul>
+
+    <span class="all_layer"></span>
+    <script>
+        g = document.querySelector.bind(document);
+        gA = document.querySelectorAll.bind(document);
+        const {
+            ipcRenderer
+        } = require('electron');
+
+        const ul = document.querySelector('#items-container');
+
+        // Add item
+        ipcRenderer.on('item:add', (e, item) => {
+            const template = `<li>${item}</li>`;
+            let li = document.createElement('li');
+            let liText = document.createTextNode(item);
+            li.appendChild(liText);
+            // Create Items' Options
+            let option = {
+                container: document.createElement('div'),
+                delete: document.createElement('button'),
+                edit: document.createElement('button'),
+            };
+
+            option.container.className = 'art_option_container';
+            option.delete.id = 'remove-item';
+            option.edit.id = 'edit-item';
+            option.delete.innerText = 'Delete';
+            option.edit.innerText = 'Edit';
+            option.delete.className = 'art_option';
+            option.edit.className = 'art_option';
+
+            // Remove item
+            option.delete.addEventListener('click', (e) => {
+                let target = e.target;
+                let prnt = target.parentElement;
+                prnt = prnt.parentElement;
+                prnt.remove();
+
+            });
+
+            // Edit item
+            option.edit.addEventListener('click', (e) => {
+                let target = e.target;
+                let prnt = target.parentElement;
+                prnt = prnt.parentElement;
+                alert('Hello');
+
+
+            });
+            option.container.appendChild(option.delete);
+            option.container.appendChild(option.edit);
+
+            li.appendChild(option.container);
+
+            ul.appendChild(li);
+
+        });
+
+        // Clear items
+        ipcRenderer.on('item:clear', () => {
+            ul.innerHTML = ""
+        });
+        // // Remove item
+        // ul.addEventListener('dblclick', e=>{
+        //     if(e.target !== ul)
+        //         e.target.remove();
+
+        // });
+
+        // Modal Left
+        (function mdl(e) {
+            const btn_left = g("#md-l");
+            btn_left.addEventListener("click", () => {
+
+                const navWrapper = g(".nav-wrapper");
+                const modal_right = g(".mdl");
+                const itemsContainer = g("#items-container");
+
+                navWrapper.classList.toggle("transf-l");
+                modal_right.classList.toggle("mdr-open");
+                itemsContainer.classList.toggle("transf-relative");
+
+                g('body').style.overflow = 'hidden';
+
+                if (!modal_right.classList.contains("mdr-open")) {
+                    g('body').style.overflow = 'initial'
+                }
+
+
+
+
+            })
+        })();
+        // Modal Right
+        (function mdr(e) {
+            const btn_right = g("#md-r");
+            btn_right.addEventListener("click", () => {
+                callLayer("1", (md_layer) => {
+                    const navWrapper = g(".nav-wrapper");
+                    const modal_right = g(".mdr");
+                    const itemsContainer = g("#items-container");
+
+                    return Promise.resolve((() => {
+                            modal_right.classList.add("mdr-open");
+                            navWrapper.classList.add("transf-r");
+                            itemsContainer.classList.add("transf-relative_");
+                            g('body').style.overflow = 'hidden';
+                        })())
+                        .then(e => {
+                            md_layer.addEventListener("click", (e) => {
+                                modal_right.classList.remove("mdr-open");
+                                navWrapper.classList.remove("transf-r");
+                                itemsContainer.classList.remove("transf-relative_");
+                                g('body').style.overflow = 'initial';
+                                callLayer("0");
+                            })
+                        })
+                });
+            })
+        })();
+
+
+        function callLayer(ev, cb) {
+            const md_layer = g(".all_layer");
+            if (ev == "0") {
+                md_layer.style.maxWidth = "0";
+                if (cb) {
+                    cb(md_layer)
+                }
+            }
+            if (ev == "1") {
+                md_layer.style.maxWidth = "100%";
+                if (cb) {
+                    cb(md_layer)
+                }
+            }
+            if (ev == "get1") {
+                if (cb) {
+                    cb(md_layer)
+                }
+                return md_layer
+            }
+
+        }
+    </script>
+</body>
+
+</html>

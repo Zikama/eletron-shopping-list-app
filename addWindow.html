@@ -1,0 +1,74 @@
+<html>
+
+<head>
+    <title>Add Shopping List Item</title>
+    <style>
+        form{
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;    
+            height: 95%;
+        }
+        .container {
+            flex-grow: 1;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            margin: auto;
+        }
+        input{
+            background: #f0f0f1;
+            border: 0;
+            border-bottom: 2px solid #f0f0f1;
+            outline: none;
+            padding: 0.5pc;
+            font-size: larger;
+            box-shadow: 0 -1px 1px rgb(188, 196, 197), 0 1px 4px rgb(188, 196, 197, 0.43), 1px 0px 1px rgb(136, 181, 187, 0.06);
+            border-radius: 0.2rem;
+        }
+        input[type="submit"] {
+            padding: 0.7pc 5pc;
+            background-color: #2196F3;
+            margin: 0 0.5rem auto;
+            cursor: pointer;
+            border-radius: 0.5em;
+            border: 0;
+            box-shadow: -2px 2px 6px rgb(167, 210, 230);
+            color: #f7f7f7;
+        }
+        label {
+            align-self: center;
+            margin: 0 0.5rem;
+            color: #b5b5b5;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <div class="container">
+            <label for="item-name">Enter Item</label>
+            <input type="text" id="item-name" name="item-name" autofocus>
+        </div>
+            <input type="submit" value="Add">
+    </form>
+
+    <script>
+    const {ipcRenderer} = require('electron');
+
+    const form = document.querySelector('form');
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const item = form.querySelector('#item-name');
+
+        if(item.value !== '' ) {
+            ipcRenderer.send('item:add', item.value);
+        }
+        item.focus();
+    });
+
+    </script>
+</body>
+
+</html>
